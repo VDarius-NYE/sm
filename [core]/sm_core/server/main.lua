@@ -48,11 +48,14 @@ AddEventHandler('playerDropped', function(reason)
     local src = source
     
     if SM.Players[src] then
+        -- Mentsd el a nevet MIELŐTT mentesz
+        local playerName = SM.Players[src].name or 'Unknown'
+        
         SM.SavePlayer(src)
         SM.Players[src] = nil
         
         if SM.Config.Debug then
-            print('^3[SM_CORE]^7 Játékos kilépett: ' .. GetPlayerName(src) .. ' (' .. reason .. ')')
+            print('^3[SM_CORE]^7 Játékos kilépett: ' .. playerName .. ' (' .. reason .. ')')
         end
     end
 end)
@@ -74,17 +77,6 @@ CreateThread(function()
     end
 end)
 
--- Pozíció mentése
-RegisterNetEvent('sm_core:savePosition', function(position)
-    local src = source
-    local player = SM.Players[src]
-    
-    if player then
-        player.lastPosition = position
-        print('^3[SM_CORE]^7 Pozíció mentve: ' .. position.x .. ', ' .. position.y .. ', ' .. position.z)
-    end
-end)
-
 -- Adatbázis táblák
 function CreateDatabaseTables()
     MySQL.query([[
@@ -98,7 +90,7 @@ function CreateDatabaseTables()
             `gender` VARCHAR(1) DEFAULT 'm',
             `height` INT DEFAULT 175,
             `skin` LONGTEXT DEFAULT NULL,
-            `is_registered` BOOLEAN DEFAULT FALSE,
+            `is_registered` TINYINT(1) DEFAULT 0,
             `rank` VARCHAR(50) DEFAULT 'recruit',
             `team` VARCHAR(50) DEFAULT NULL,
             `money` INT DEFAULT 0,
@@ -147,5 +139,19 @@ RegisterNetEvent('sm_core:setCharacterData', function(source, data)
     -- Kliens frissítés
     TriggerClientEvent('sm_core:setPlayerData', source, player)
     
-    print('^2[SM_CORE]^7 Karakter adatok mentve: ' .. player.firstname .. ' ' .. player.lastname)
+    print('^2[SM_CORE]^7 Karakter adatok mentve: ' .. (player.firstname or '') .. ' ' .. (player.lastname or ''))
+end)
+
+-- Pozíció mentése
+RegisterNetEvent('sm_core:savePosition', function(position)
+    local src = source
+    local player = SM.Players[src]
+    
+    if player then
+        player.lastPosition = position
+        
+        if SM.Config.Debug then
+            print('^3[SM_CORE]^7 Pozíció mentve: ' .. position.x .. ', ' .. position.y .. ', ' .. position.z)
+        end
+    end
 end)
