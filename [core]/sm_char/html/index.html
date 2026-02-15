@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SilverMilitary - Regisztráció</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="registration" class="container hidden">
+        <div class="registration-box">
+            <div class="header">
+                <h1>SILVERMILITARY</h1>
+                <p>Karakter Regisztráció</p>
+            </div>
+
+            <div class="form-container">
+                <div id="error-message" class="error-message hidden"></div>
+
+                <div class="form-group">
+                    <label for="firstname">Keresztnév</label>
+                    <input type="text" id="firstname" placeholder="Példa: János" maxlength="20">
+                </div>
+
+                <div class="form-group">
+                    <label for="lastname">Vezetéknév</label>
+                    <input type="text" id="lastname" placeholder="Példa: Kovács" maxlength="20">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="dateofbirth">Születési dátum</label>
+                        <input type="text" id="dateofbirth" placeholder="HH/NN/ÉÉÉÉ" maxlength="10">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="height">Magasság (cm)</label>
+                        <input type="number" id="height" placeholder="175" min="140" max="220">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Nem</label>
+                    <div class="gender-buttons">
+                        <button type="button" class="gender-btn active" data-gender="m">
+                            <span>♂</span> Férfi
+                        </button>
+                        <button type="button" class="gender-btn" data-gender="f">
+                            <span>♀</span> Nő
+                        </button>
+                    </div>
+                </div>
+
+                <button id="submit-btn" class="submit-btn">REGISZTRÁCIÓ</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

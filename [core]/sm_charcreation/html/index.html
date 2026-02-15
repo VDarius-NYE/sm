@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SilverMilitary - Karakterkészítő</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="creator" class="container hidden">
+        <!-- Baloldali panel -->
+        <div class="sidebar">
+            <div class="header">
+                <h1>KARAKTER KÉSZÍTŐ</h1>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="heritage">Örökség</button>
+                <button class="tab-btn" data-tab="features">Arc</button>
+                <button class="tab-btn" data-tab="appearance">Kinézet</button>
+                <button class="tab-btn" data-tab="clothing">Ruházat</button>
+            </div>
+
+            <!-- Örökség Tab -->
+            <div id="heritage-tab" class="tab-content active">
+                <div class="section">
+                    <label>Anya</label>
+                    <input type="range" id="mom" min="0" max="45" value="21" step="1">
+                    <span class="value" id="mom-value">21</span>
+                </div>
+
+                <div class="section">
+                    <label>Apa</label>
+                    <input type="range" id="dad" min="0" max="44" value="0" step="1">
+                    <span class="value" id="dad-value">0</span>
+                </div>
+
+                <div class="section">
+                    <label>Arc hasonlóság</label>
+                    <input type="range" id="face_md_weight" min="0" max="1" value="0.5" step="0.1">
+                    <span class="value" id="face_md_weight-value">0.5</span>
+                </div>
+
+                <div class="section">
+                    <label>Bőr hasonlóság</label>
+                    <input type="range" id="skin_md_weight" min="0" max="1" value="0.5" step="0.1">
+                    <span class="value" id="skin_md_weight-value">0.5</span>
+                </div>
+            </div>
+
+            <!-- Arc jellemzők Tab -->
+            <div id="features-tab" class="tab-content">
+                <div class="section">
+                    <label>Orr szélesség</label>
+                    <input type="range" id="nose_width" min="-1" max="1" value="0" step="0.1">
+                    <span class="value" id="nose_width-value">0</span>
+                </div>
+
+                <div class="section">
+                    <label>Orr csúcs magasság</label>
+                    <input type="range" id="nose_peak_height" min="-1" max="1" value="0" step="0.1">
+                    <span class="value" id="nose_peak_height-value">0</span>
+                </div>
+
+                <div class="section">
+                    <label>Orr hosszúság</label>
+                    <input type="range" id="nose_peak_length" min="-1" max="1" value="0" step="0.1">
+                    <span class="value" id="nose_peak_length-value">0</span>
+                </div>
+
+                <div class="section">
+                    <label>Szemöldök magasság</label>
+                    <input type="range" id="eyebrow_height" min="-1" max="1" value="0" step="0.1">
+                    <span class="value" id="eyebrow_height-value">0</span>
+                </div>
+
+                <div class="section">
+                    <label>Pofacsont magasság</label>
+                    <input type="range" id="cheeks_bone_high" min="-1" max="1" value="0" step="0.1">
+                    <span class="value" id="cheeks_bone_high-value">0</span>
+                </div>
+
+                <div class="section">
+                    <label>Pofacsont szélesség</label>
+                    <input type="range" id="cheeks_bone_width" min="-1" max="1" value="0" step="0.1">
+                    <span class="value" id="cheeks_bone_width-value">0</span>
+                </div>
+
+                <div class="section">
+                    <label>Ajak vastagság</label>
+                    <input type="range" id="lips_thickness" min="-1" max="1" value="0" step="0.1">
+                    <span class="value" id="lips_thickness-value">0</span>
+                </div>
+
+                <div class="section">
+                    <label>Állkapocs szélesség</label>
+                    <input type="range" id="jaw_bone_width" min="-1" max="1" value="0" step="0.1">
+                    <span class="value" id="jaw_bone_width-value">0</span>
+                </div>
+
+                <div class="section">
+                    <label>Áll méret</label>
+                    <input type="range" id="chimp_bone_lowering" min="-1" max="1" value="0" step="0.1">
+                    <span class="value" id="chimp_bone_lowering-value">0</span>
+                </div>
+
+                <div class="section">
+                    <label>Nyak vastagság</label>
+                    <input type="range" id="neck_thickness" min="-1" max="1" value="0" step="0.1">
+                    <span class="value" id="neck_thickness-value">0</span>
+                </div>
+            </div>
+
+            <!-- Kinézet Tab -->
+            <div id="appearance-tab" class="tab-content">
+                <div class="section">
+                    <label>Haj</label>
+                    <input type="range" id="hair" min="0" max="73" value="0" step="1">
+                    <span class="value" id="hair-value">0</span>
+                </div>
+
+                <div class="section">
+                    <label>Hajszín</label>
+                    <input type="range" id="hair_color" min="0" max="63" value="0" step="1">
+                    <span class="value" id="hair_color-value">0</span>
+                </div>
+
+                <div class="section">
+                    <label>Szemöldök</label>
+                    <input type="range" id="eyebrow" min="0" max="33" value="0" step="1">
+                    <span class="value" id="eyebrow-value">0</span>
+                </div>
+
+                <div class="section">
+                    <label>Szemöldök szín</label>
+                    <input type="range" id="eyebrow_color" min="0" max="63" value="0" step="1">
+                    <span class="value" id="eyebrow_color-value">0</span>
+                </div>
+
+                <div class="section">
+                    <label>Szem szín</label>
+                    <input type="range" id="eye_color" min="0" max="31" value="0" step="1">
+                    <span class="value" id="eye_color-value">0</span>
+                </div>
+
+                <div class="section">
+                    <label>Szakáll</label>
+                    <input type="range" id="beard" min="-1" max="28" value="-1" step="1">
+                    <span class="value" id="beard-value">-1</span>
+                </div>
+
+                <div class="section">
+                    <label>Szakáll szín</label>
+                    <input type="range" id="beard_color" min="0" max="63" value="0" step="1">
+                    <span class="value" id="beard_color-value">0</span>
+                </div>
+
+                <div class="section">
+                    <label>Öregedés</label>
+                    <input type="range" id="aging" min="-1" max="14" value="-1" step="1">
+                    <span class="value" id="aging-value">-1</span>
+                </div>
+            </div>
+
+            <!-- Ruházat Tab -->
+            <div id="clothing-tab" class="tab-content">
+                <div class="section">
+                    <label>Felső</label>
+                    <input type="range" id="torso" min="0" max="500" value="0" step="1">
+                    <span class="value" id="torso-value">0</span>
+                </div>
+
+                <div class="section">
+                    <label>Nadrág</label>
+                    <input type="range" id="pants" min="0" max="200" value="0" step="1">
+                    <span class="value" id="pants-value">0</span>
+                </div>
+
+                <div class="section">
+                    <label>Cipő</label>
+                    <input type="range" id="shoes" min="0" max="100" value="0" step="1">
+                    <span class="value" id="shoes-value">0</span>
+                </div>
+
+                <div class="section">
+                    <label>Sapka</label>
+                    <input type="range" id="hat" min="-1" max="150" value="-1" step="1">
+                    <span class="value" id="hat-value">-1</span>
+                </div>
+
+                <div class="section">
+                    <label>Szemüveg</label>
+                    <input type="range" id="glasses" min="-1" max="50" value="-1" step="1">
+                    <span class="value" id="glasses-value">-1</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Jobb oldali gombok -->
+        <div class="controls">
+            <button class="rotate-btn" id="rotate-left">◄</button>
+            <button class="rotate-btn" id="rotate-right">►</button>
+            <button class="save-btn" id="save-btn">MENTÉS</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
