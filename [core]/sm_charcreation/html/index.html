@@ -10,358 +10,362 @@
     <div id="creator" class="container hidden">
         <!-- Baloldali panel -->
         <div class="sidebar">
-            <div class="header">
-                <h1>KARAKTER KÉSZÍTŐ</h1>
+            <!-- ÚJ WRAPPER - Scrollozható tartalom -->
+            <div class="sidebar-content">
+                <div class="header">
+                    <h1>KARAKTER KÉSZÍTŐ</h1>
+                </div>
+
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="heritage">Örökség</button>
+                    <button class="tab-btn" data-tab="features">Arc</button>
+                    <button class="tab-btn" data-tab="appearance">Kinézet</button>
+                    <button class="tab-btn" data-tab="clothing">Ruházat</button>
+                </div>
+
+                <!-- Örökség Tab -->
+                <div id="heritage-tab" class="tab-content active">
+                    <div class="section">
+                        <label>Anya <span class="range-info">(<span id="mom-current">21</span>/45)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="mom" min="0" max="45" value="21" step="1">
+                            <input type="number" id="mom-input" class="number-input" min="0" max="45" value="21">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Apa <span class="range-info">(<span id="dad-current">0</span>/44)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="dad" min="0" max="44" value="0" step="1">
+                            <input type="number" id="dad-input" class="number-input" min="0" max="44" value="0">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Arc hasonlóság <span class="range-info">(<span id="face_md_weight-current">0.5</span>/1.0)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="face_md_weight" min="0" max="1" value="0.5" step="0.1">
+                            <input type="number" id="face_md_weight-input" class="number-input" min="0" max="1" value="0.5" step="0.1">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Bőr hasonlóság <span class="range-info">(<span id="skin_md_weight-current">0.5</span>/1.0)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="skin_md_weight" min="0" max="1" value="0.5" step="0.1">
+                            <input type="number" id="skin_md_weight-input" class="number-input" min="0" max="1" value="0.5" step="0.1">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Arc jellemzők Tab -->
+                <div id="features-tab" class="tab-content">
+                    <div class="section">
+                        <label>Orr szélesség <span class="range-info">(<span id="nose_width-current">0.0</span>)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="nose_width" min="-1" max="1" value="0" step="0.1">
+                            <input type="number" id="nose_width-input" class="number-input" min="-1" max="1" value="0" step="0.1">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Orr csúcs magasság <span class="range-info">(<span id="nose_peak_height-current">0.0</span>)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="nose_peak_height" min="-1" max="1" value="0" step="0.1">
+                            <input type="number" id="nose_peak_height-input" class="number-input" min="-1" max="1" value="0" step="0.1">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Orr hosszúság <span class="range-info">(<span id="nose_peak_length-current">0.0</span>)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="nose_peak_length" min="-1" max="1" value="0" step="0.1">
+                            <input type="number" id="nose_peak_length-input" class="number-input" min="-1" max="1" value="0" step="0.1">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Szemöldök magasság <span class="range-info">(<span id="eyebrow_height-current">0.0</span>)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="eyebrow_height" min="-1" max="1" value="0" step="0.1">
+                            <input type="number" id="eyebrow_height-input" class="number-input" min="-1" max="1" value="0" step="0.1">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Pofacsont magasság <span class="range-info">(<span id="cheeks_bone_high-current">0.0</span>)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="cheeks_bone_high" min="-1" max="1" value="0" step="0.1">
+                            <input type="number" id="cheeks_bone_high-input" class="number-input" min="-1" max="1" value="0" step="0.1">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Pofacsont szélesség <span class="range-info">(<span id="cheeks_bone_width-current">0.0</span>)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="cheeks_bone_width" min="-1" max="1" value="0" step="0.1">
+                            <input type="number" id="cheeks_bone_width-input" class="number-input" min="-1" max="1" value="0" step="0.1">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Ajak vastagság <span class="range-info">(<span id="lips_thickness-current">0.0</span>)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="lips_thickness" min="-1" max="1" value="0" step="0.1">
+                            <input type="number" id="lips_thickness-input" class="number-input" min="-1" max="1" value="0" step="0.1">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Állkapocs szélesség <span class="range-info">(<span id="jaw_bone_width-current">0.0</span>)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="jaw_bone_width" min="-1" max="1" value="0" step="0.1">
+                            <input type="number" id="jaw_bone_width-input" class="number-input" min="-1" max="1" value="0" step="0.1">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Áll méret <span class="range-info">(<span id="chimp_bone_lowering-current">0.0</span>)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="chimp_bone_lowering" min="-1" max="1" value="0" step="0.1">
+                            <input type="number" id="chimp_bone_lowering-input" class="number-input" min="-1" max="1" value="0" step="0.1">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Nyak vastagság <span class="range-info">(<span id="neck_thickness-current">0.0</span>)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="neck_thickness" min="-1" max="1" value="0" step="0.1">
+                            <input type="number" id="neck_thickness-input" class="number-input" min="-1" max="1" value="0" step="0.1">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kinézet Tab -->
+                <div id="appearance-tab" class="tab-content">
+                    <div class="section">
+                        <label>Haj <span class="range-info">(<span id="hair-current">0</span>/73)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="hair" min="0" max="73" value="0" step="1">
+                            <input type="number" id="hair-input" class="number-input" min="0" max="73" value="0">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Hajszín <span class="range-info">(<span id="hair_color-current">0</span>/63)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="hair_color" min="0" max="63" value="0" step="1">
+                            <input type="number" id="hair_color-input" class="number-input" min="0" max="63" value="0">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Haj kiemelés <span class="range-info">(<span id="hair_highlight-current">0</span>/63)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="hair_highlight" min="0" max="63" value="0" step="1">
+                            <input type="number" id="hair_highlight-input" class="number-input" min="0" max="63" value="0">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Szemöldök <span class="range-info">(<span id="eyebrow-current">0</span>/33)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="eyebrow" min="0" max="33" value="0" step="1">
+                            <input type="number" id="eyebrow-input" class="number-input" min="0" max="33" value="0">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Szemöldök szín <span class="range-info">(<span id="eyebrow_color-current">0</span>/63)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="eyebrow_color" min="0" max="63" value="0" step="1">
+                            <input type="number" id="eyebrow_color-input" class="number-input" min="0" max="63" value="0">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Szem szín <span class="range-info">(<span id="eye_color-current">0</span>/31)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="eye_color" min="0" max="31" value="0" step="1">
+                            <input type="number" id="eye_color-input" class="number-input" min="0" max="31" value="0">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Szakáll <span class="range-info">(<span id="beard-current">-1</span>/28)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="beard" min="-1" max="28" value="-1" step="1">
+                            <input type="number" id="beard-input" class="number-input" min="-1" max="28" value="-1">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Szakáll szín <span class="range-info">(<span id="beard_color-current">0</span>/63)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="beard_color" min="0" max="63" value="0" step="1">
+                            <input type="number" id="beard_color-input" class="number-input" min="0" max="63" value="0">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Öregedés <span class="range-info">(<span id="aging-current">-1</span>/14)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="aging" min="-1" max="14" value="-1" step="1">
+                            <input type="number" id="aging-input" class="number-input" min="-1" max="14" value="-1">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ruházat Tab -->
+                <div id="clothing-tab" class="tab-content">
+                    <div class="section">
+                        <label>Felső <span class="range-info">(<span id="torso-current">0</span>/500)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="torso" min="0" max="500" value="0" step="1">
+                            <input type="number" id="torso-input" class="number-input" min="0" max="500" value="0">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Felső textúra <span class="range-info">(<span id="torso_texture-current">0</span>/15)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="torso_texture" min="0" max="15" value="0" step="1">
+                            <input type="number" id="torso_texture-input" class="number-input" min="0" max="15" value="0">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Nadrág <span class="range-info">(<span id="pants-current">0</span>/200)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="pants" min="0" max="200" value="0" step="1">
+                            <input type="number" id="pants-input" class="number-input" min="0" max="200" value="0">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Nadrág textúra <span class="range-info">(<span id="pants_texture-current">0</span>/15)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="pants_texture" min="0" max="15" value="0" step="1">
+                            <input type="number" id="pants_texture-input" class="number-input" min="0" max="15" value="0">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Cipő <span class="range-info">(<span id="shoes-current">0</span>/100)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="shoes" min="0" max="100" value="0" step="1">
+                            <input type="number" id="shoes-input" class="number-input" min="0" max="100" value="0">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Cipő textúra <span class="range-info">(<span id="shoes_texture-current">0</span>/15)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="shoes_texture" min="0" max="15" value="0" step="1">
+                            <input type="number" id="shoes_texture-input" class="number-input" min="0" max="15" value="0">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Táska <span class="range-info">(<span id="bag-current">0</span>/100)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="bag" min="0" max="100" value="0" step="1">
+                            <input type="number" id="bag-input" class="number-input" min="0" max="100" value="0">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Táska textúra <span class="range-info">(<span id="bag_texture-current">0</span>/15)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="bag_texture" min="0" max="15" value="0" step="1">
+                            <input type="number" id="bag_texture-input" class="number-input" min="0" max="15" value="0">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Nyaklánc <span class="range-info">(<span id="chain-current">0</span>/50)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="chain" min="0" max="50" value="0" step="1">
+                            <input type="number" id="chain-input" class="number-input" min="0" max="50" value="0">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Nyaklánc textúra <span class="range-info">(<span id="chain_texture-current">0</span>/15)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="chain_texture" min="0" max="15" value="0" step="1">
+                            <input type="number" id="chain_texture-input" class="number-input" min="0" max="15" value="0">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Sapka <span class="range-info">(<span id="hat-current">-1</span>/150)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="hat" min="-1" max="150" value="-1" step="1">
+                            <input type="number" id="hat-input" class="number-input" min="-1" max="150" value="-1">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Sapka textúra <span class="range-info">(<span id="hat_texture-current">0</span>/15)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="hat_texture" min="0" max="15" value="0" step="1">
+                            <input type="number" id="hat_texture-input" class="number-input" min="0" max="15" value="0">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Szemüveg <span class="range-info">(<span id="glasses-current">-1</span>/50)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="glasses" min="-1" max="50" value="-1" step="1">
+                            <input type="number" id="glasses-input" class="number-input" min="-1" max="50" value="-1">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Szemüveg textúra <span class="range-info">(<span id="glasses_texture-current">0</span>/15)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="glasses_texture" min="0" max="15" value="0" step="1">
+                            <input type="number" id="glasses_texture-input" class="number-input" min="0" max="15" value="0">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Óra <span class="range-info">(<span id="watch-current">-1</span>/50)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="watch" min="-1" max="50" value="-1" step="1">
+                            <input type="number" id="watch-input" class="number-input" min="-1" max="50" value="-1">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Óra textúra <span class="range-info">(<span id="watch_texture-current">0</span>/15)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="watch_texture" min="0" max="15" value="0" step="1">
+                            <input type="number" id="watch_texture-input" class="number-input" min="0" max="15" value="0">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Karkötő <span class="range-info">(<span id="bracelet-current">-1</span>/50)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="bracelet" min="-1" max="50" value="-1" step="1">
+                            <input type="number" id="bracelet-input" class="number-input" min="-1" max="50" value="-1">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label>Karkötő textúra <span class="range-info">(<span id="bracelet_texture-current">0</span>/15)</span></label>
+                        <div class="input-group">
+                            <input type="range" id="bracelet_texture" min="0" max="15" value="0" step="1">
+                            <input type="number" id="bracelet_texture-input" class="number-input" min="0" max="15" value="0">
+                        </div>
+                    </div>
+                </div>
             </div>
+            <!-- VÉGE a scrollozható tartalomnak -->
 
-            <div class="tabs">
-                <button class="tab-btn active" data-tab="heritage">Örökség</button>
-                <button class="tab-btn" data-tab="features">Arc</button>
-                <button class="tab-btn" data-tab="appearance">Kinézet</button>
-                <button class="tab-btn" data-tab="clothing">Ruházat</button>
-            </div>
-
-            <!-- Örökség Tab -->
-            <div id="heritage-tab" class="tab-content active">
-                <div class="section">
-                    <label>Anya <span class="range-info">(<span id="mom-current">21</span>/45)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="mom" min="0" max="45" value="21" step="1">
-                        <input type="number" id="mom-input" class="number-input" min="0" max="45" value="21">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Apa <span class="range-info">(<span id="dad-current">0</span>/44)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="dad" min="0" max="44" value="0" step="1">
-                        <input type="number" id="dad-input" class="number-input" min="0" max="44" value="0">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Arc hasonlóság <span class="range-info">(<span id="face_md_weight-current">0.5</span>/1.0)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="face_md_weight" min="0" max="1" value="0.5" step="0.1">
-                        <input type="number" id="face_md_weight-input" class="number-input" min="0" max="1" value="0.5" step="0.1">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Bőr hasonlóság <span class="range-info">(<span id="skin_md_weight-current">0.5</span>/1.0)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="skin_md_weight" min="0" max="1" value="0.5" step="0.1">
-                        <input type="number" id="skin_md_weight-input" class="number-input" min="0" max="1" value="0.5" step="0.1">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Arc jellemzők Tab -->
-            <div id="features-tab" class="tab-content">
-                <div class="section">
-                    <label>Orr szélesség <span class="range-info">(<span id="nose_width-current">0.0</span>)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="nose_width" min="-1" max="1" value="0" step="0.1">
-                        <input type="number" id="nose_width-input" class="number-input" min="-1" max="1" value="0" step="0.1">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Orr csúcs magasság <span class="range-info">(<span id="nose_peak_height-current">0.0</span>)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="nose_peak_height" min="-1" max="1" value="0" step="0.1">
-                        <input type="number" id="nose_peak_height-input" class="number-input" min="-1" max="1" value="0" step="0.1">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Orr hosszúság <span class="range-info">(<span id="nose_peak_length-current">0.0</span>)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="nose_peak_length" min="-1" max="1" value="0" step="0.1">
-                        <input type="number" id="nose_peak_length-input" class="number-input" min="-1" max="1" value="0" step="0.1">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Szemöldök magasság <span class="range-info">(<span id="eyebrow_height-current">0.0</span>)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="eyebrow_height" min="-1" max="1" value="0" step="0.1">
-                        <input type="number" id="eyebrow_height-input" class="number-input" min="-1" max="1" value="0" step="0.1">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Pofacsont magasság <span class="range-info">(<span id="cheeks_bone_high-current">0.0</span>)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="cheeks_bone_high" min="-1" max="1" value="0" step="0.1">
-                        <input type="number" id="cheeks_bone_high-input" class="number-input" min="-1" max="1" value="0" step="0.1">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Pofacsont szélesség <span class="range-info">(<span id="cheeks_bone_width-current">0.0</span>)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="cheeks_bone_width" min="-1" max="1" value="0" step="0.1">
-                        <input type="number" id="cheeks_bone_width-input" class="number-input" min="-1" max="1" value="0" step="0.1">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Ajak vastagság <span class="range-info">(<span id="lips_thickness-current">0.0</span>)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="lips_thickness" min="-1" max="1" value="0" step="0.1">
-                        <input type="number" id="lips_thickness-input" class="number-input" min="-1" max="1" value="0" step="0.1">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Állkapocs szélesség <span class="range-info">(<span id="jaw_bone_width-current">0.0</span>)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="jaw_bone_width" min="-1" max="1" value="0" step="0.1">
-                        <input type="number" id="jaw_bone_width-input" class="number-input" min="-1" max="1" value="0" step="0.1">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Áll méret <span class="range-info">(<span id="chimp_bone_lowering-current">0.0</span>)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="chimp_bone_lowering" min="-1" max="1" value="0" step="0.1">
-                        <input type="number" id="chimp_bone_lowering-input" class="number-input" min="-1" max="1" value="0" step="0.1">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Nyak vastagság <span class="range-info">(<span id="neck_thickness-current">0.0</span>)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="neck_thickness" min="-1" max="1" value="0" step="0.1">
-                        <input type="number" id="neck_thickness-input" class="number-input" min="-1" max="1" value="0" step="0.1">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Kinézet Tab -->
-            <div id="appearance-tab" class="tab-content">
-                <div class="section">
-                    <label>Haj <span class="range-info">(<span id="hair-current">0</span>/73)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="hair" min="0" max="73" value="0" step="1">
-                        <input type="number" id="hair-input" class="number-input" min="0" max="73" value="0">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Hajszín <span class="range-info">(<span id="hair_color-current">0</span>/63)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="hair_color" min="0" max="63" value="0" step="1">
-                        <input type="number" id="hair_color-input" class="number-input" min="0" max="63" value="0">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Haj kiemelés <span class="range-info">(<span id="hair_highlight-current">0</span>/63)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="hair_highlight" min="0" max="63" value="0" step="1">
-                        <input type="number" id="hair_highlight-input" class="number-input" min="0" max="63" value="0">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Szemöldök <span class="range-info">(<span id="eyebrow-current">0</span>/33)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="eyebrow" min="0" max="33" value="0" step="1">
-                        <input type="number" id="eyebrow-input" class="number-input" min="0" max="33" value="0">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Szemöldök szín <span class="range-info">(<span id="eyebrow_color-current">0</span>/63)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="eyebrow_color" min="0" max="63" value="0" step="1">
-                        <input type="number" id="eyebrow_color-input" class="number-input" min="0" max="63" value="0">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Szem szín <span class="range-info">(<span id="eye_color-current">0</span>/31)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="eye_color" min="0" max="31" value="0" step="1">
-                        <input type="number" id="eye_color-input" class="number-input" min="0" max="31" value="0">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Szakáll <span class="range-info">(<span id="beard-current">-1</span>/28)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="beard" min="-1" max="28" value="-1" step="1">
-                        <input type="number" id="beard-input" class="number-input" min="-1" max="28" value="-1">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Szakáll szín <span class="range-info">(<span id="beard_color-current">0</span>/63)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="beard_color" min="0" max="63" value="0" step="1">
-                        <input type="number" id="beard_color-input" class="number-input" min="0" max="63" value="0">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Öregedés <span class="range-info">(<span id="aging-current">-1</span>/14)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="aging" min="-1" max="14" value="-1" step="1">
-                        <input type="number" id="aging-input" class="number-input" min="-1" max="14" value="-1">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Ruházat Tab -->
-            <div id="clothing-tab" class="tab-content">
-                <div class="section">
-                    <label>Felső <span class="range-info">(<span id="torso-current">0</span>/500)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="torso" min="0" max="500" value="0" step="1">
-                        <input type="number" id="torso-input" class="number-input" min="0" max="500" value="0">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Felső textúra <span class="range-info">(<span id="torso_texture-current">0</span>/15)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="torso_texture" min="0" max="15" value="0" step="1">
-                        <input type="number" id="torso_texture-input" class="number-input" min="0" max="15" value="0">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Nadrág <span class="range-info">(<span id="pants-current">0</span>/200)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="pants" min="0" max="200" value="0" step="1">
-                        <input type="number" id="pants-input" class="number-input" min="0" max="200" value="0">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Nadrág textúra <span class="range-info">(<span id="pants_texture-current">0</span>/15)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="pants_texture" min="0" max="15" value="0" step="1">
-                        <input type="number" id="pants_texture-input" class="number-input" min="0" max="15" value="0">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Cipő <span class="range-info">(<span id="shoes-current">0</span>/100)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="shoes" min="0" max="100" value="0" step="1">
-                        <input type="number" id="shoes-input" class="number-input" min="0" max="100" value="0">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Cipő textúra <span class="range-info">(<span id="shoes_texture-current">0</span>/15)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="shoes_texture" min="0" max="15" value="0" step="1">
-                        <input type="number" id="shoes_texture-input" class="number-input" min="0" max="15" value="0">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Táska <span class="range-info">(<span id="bag-current">0</span>/100)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="bag" min="0" max="100" value="0" step="1">
-                        <input type="number" id="bag-input" class="number-input" min="0" max="100" value="0">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Táska textúra <span class="range-info">(<span id="bag_texture-current">0</span>/15)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="bag_texture" min="0" max="15" value="0" step="1">
-                        <input type="number" id="bag_texture-input" class="number-input" min="0" max="15" value="0">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Nyaklánc <span class="range-info">(<span id="chain-current">0</span>/50)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="chain" min="0" max="50" value="0" step="1">
-                        <input type="number" id="chain-input" class="number-input" min="0" max="50" value="0">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Nyaklánc textúra <span class="range-info">(<span id="chain_texture-current">0</span>/15)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="chain_texture" min="0" max="15" value="0" step="1">
-                        <input type="number" id="chain_texture-input" class="number-input" min="0" max="15" value="0">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Sapka <span class="range-info">(<span id="hat-current">-1</span>/150)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="hat" min="-1" max="150" value="-1" step="1">
-                        <input type="number" id="hat-input" class="number-input" min="-1" max="150" value="-1">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Sapka textúra <span class="range-info">(<span id="hat_texture-current">0</span>/15)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="hat_texture" min="0" max="15" value="0" step="1">
-                        <input type="number" id="hat_texture-input" class="number-input" min="0" max="15" value="0">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Szemüveg <span class="range-info">(<span id="glasses-current">-1</span>/50)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="glasses" min="-1" max="50" value="-1" step="1">
-                        <input type="number" id="glasses-input" class="number-input" min="-1" max="50" value="-1">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Szemüveg textúra <span class="range-info">(<span id="glasses_texture-current">0</span>/15)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="glasses_texture" min="0" max="15" value="0" step="1">
-                        <input type="number" id="glasses_texture-input" class="number-input" min="0" max="15" value="0">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Óra <span class="range-info">(<span id="watch-current">-1</span>/50)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="watch" min="-1" max="50" value="-1" step="1">
-                        <input type="number" id="watch-input" class="number-input" min="-1" max="50" value="-1">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Óra textúra <span class="range-info">(<span id="watch_texture-current">0</span>/15)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="watch_texture" min="0" max="15" value="0" step="1">
-                        <input type="number" id="watch_texture-input" class="number-input" min="0" max="15" value="0">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Karkötő <span class="range-info">(<span id="bracelet-current">-1</span>/50)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="bracelet" min="-1" max="50" value="-1" step="1">
-                        <input type="number" id="bracelet-input" class="number-input" min="-1" max="50" value="-1">
-                    </div>
-                </div>
-
-                <div class="section">
-                    <label>Karkötő textúra <span class="range-info">(<span id="bracelet_texture-current">0</span>/15)</span></label>
-                    <div class="input-group">
-                        <input type="range" id="bracelet_texture" min="0" max="15" value="0" step="1">
-                        <input type="number" id="bracelet_texture-input" class="number-input" min="0" max="15" value="0">
-                    </div>
-                </div>
-            </div>
-
-            <!-- MENTÉS GOMB IDE KERÜLT! -->
+            <!-- MENTÉS SZEKCIÓ - FIX POZÍCIÓ ALUL, KÍVÜL a scrollozható tartalomból -->
             <div class="save-section">
                 <button id="save-btn" class="save-btn">MENTÉS</button>
                 <p class="controls-hint">A / D - Karakter forgatása</p>

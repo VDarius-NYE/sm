@@ -47,7 +47,7 @@ function HideLoadingScreen()
     end
 end
 
--- FŐFOLYAMAT - Várj a teljes betöltésre
+-- FŐFOLYAMAT - Regisztrált játékosoknak
 CreateThread(function()
     -- 1. Várj a hálózatra
     while not NetworkIsPlayerActive(PlayerId()) do
@@ -56,7 +56,7 @@ CreateThread(function()
     
     print('^2[SM_LOADED]^7 Hálózat aktív')
     
-    -- 2. Várj amíg a játék ténylegesen betölt (fontos!)
+    -- 2. Várj amíg a játék ténylegesen betölt
     while GetIsLoadingScreenActive() do
         Wait(100)
     end
@@ -154,13 +154,12 @@ RegisterNetEvent('sm_loaded:spawnAfterCreation', function()
     hasSpawned = true
 end)
 
--- Regisztráció loading (opcionális)
-RegisterNetEvent('sm_loaded:showRegistrationLoading', function()
-    print('^2[SM_LOADED]^7 Regisztráció loading...')
-    -- NE jelenítsd meg, mert a regisztráció UI-ja van
+-- Általános loading screen megjelenítés
+RegisterNetEvent('sm_loaded:showLoading', function(text)
+    ShowLoadingScreen(text or 'Betöltés')
 end)
 
-RegisterNetEvent('sm_loaded:hideRegistrationLoading', function()
-    print('^2[SM_LOADED]^7 Regisztráció loading elrejtése')
-    -- Semmit ne csinálj
+-- Általános loading screen elrejtés
+RegisterNetEvent('sm_loaded:hideLoading', function()
+    HideLoadingScreen()
 end)
