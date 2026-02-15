@@ -39,7 +39,7 @@ RegisterNetEvent('sm_core:onPlayerLoaded', function(playerData)
         
         print('^3[SM_CHAR]^7 Teleportálva és freeze-elve')
         
-        -- Ellenőrző thread - hogy biztosan freeze maradjon
+        -- Ellenőrző thread
         CreateThread(function()
             while isRegistering do
                 local playerPed = PlayerPedId()
@@ -57,7 +57,10 @@ RegisterNetEvent('sm_core:onPlayerLoaded', function(playerData)
             end
         end)
         
-        Wait(500) -- Várj hogy minden beállítódjon
+        Wait(500)
+        
+        -- MOST elrejthetjük az sm_loaded screent
+        TriggerEvent('sm_loaded:hideForRegistration')
         
         -- Most már biztonságosan megnyithatjuk a regisztrációt
         OpenRegistration()

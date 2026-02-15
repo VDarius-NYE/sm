@@ -9,10 +9,6 @@ end)
 
 -- Loading screen megjelenítése
 function ShowLoadingScreen(text)
-    if isLoading then return end
-    
-    isLoading = true
-    
     print('^2[SM_LOADED]^7 Loading screen megjelenítése: ' .. text)
     
     SetNuiFocus(false, false)
@@ -22,9 +18,12 @@ function ShowLoadingScreen(text)
     })
     
     if not IsScreenFadedOut() then
-        DoScreenFadeOut(500)
-        Wait(500)
+        DoScreenFadeOut(0)
     end
+    
+    isLoading = true
+    
+    print('^2[SM_LOADED]^7 Loading screen üzenet elküldve')
 end
 
 -- Loading screen elrejtése
@@ -44,35 +43,32 @@ function HideLoadingScreen()
     end
 end
 
--- REGISZTRÁLT JÁTÉKOSOK SPAWN FOLYAMATA
+-- ELŐKÉSZÍTÉS SCREEN MEGJELENÍTÉSE
 CreateThread(function()
-    -- 1. Várj a hálózatra
-    while not NetworkIsPlayerActive(PlayerId()) do
-        Wait(100)
-    end
+    -- Várj hogy a resource biztosan betöltődjön
+    Wait(1000)
     
-    print('^2[SM_LOADED]^7 Hálózat aktív')
+    -- Megjelenítjük az Előkészítés screent
+    ShowLoadingScreen('Előkészítés')
     
-    -- 2. Várj amíg a játék HIVATALOSAN betölt (FiveM loading screen)
+    print('^2[SM_LOADED]^7 Előkészítés screen meghívva')
+end)
+
+-- REGISZTRÁLT JÁTÉKOSOK - EVENT ALAPÚ!
+RegisterNetEvent('sm_core:onPlayerLoaded', function(playerData)
+    print('^2[SM_LOADED]^7 sm_core:onPlayerLoaded event fogadva')
+    print('^2[SM_LOADED DEBUG]^7 isRegistered: ' .. tostring(playerData.isRegistered))
+    
+    -- Várj amíg a loading screen tényleg befejeződik
     while GetIsLoadingScreenActive() do
         Wait(100)
     end
     
-    print('^2[SM_LOADED]^7 Játék hivatalosan betöltve')
+    print('^2[SM_LOADED]^7 FiveM loading screen befejezve')
     
-    -- 3. Várj az SM.PlayerLoaded-re
-    while not SM or not SM.PlayerLoaded do
-        Wait(100)
-    end
-    
-    print('^2[SM_LOADED]^7 PlayerData betöltve, isRegistered: ' .. tostring(SM.PlayerData.isRegistered))
-    
-    -- 4. CSAK REGISZTRÁLT JÁTÉKOSNAK
-    if SM.PlayerData.isRegistered then
+    -- CSAK REGISZTRÁLT JÁTÉKOSNAK
+    if playerData.isRegistered then
         print('^2[SM_LOADED]^7 Regisztrált játékos spawn folyamat')
-        
-        -- Loading screen ELŐKÉSZÍTÉS szöveggel
-        ShowLoadingScreen('Előkészítés')
         
         local ped = PlayerPedId()
         
@@ -82,23 +78,26 @@ CreateThread(function()
             ped = PlayerPedId()
         end
         
+        print('^2[SM_LOADED]^7 Ped létezik, freeze alkalmazása')
+        
         -- Freeze és láthatatlan
         FreezeEntityPosition(ped, true)
         SetEntityVisible(ped, false, 0)
         SetEntityInvincible(ped, true)
         
-        -- Várj a skin betöltésére (sm_core alkalmazza)
-        Wait(1500)
+        -- Várj a skin betöltésére
+        Wait(2000)
         
-        -- Teleportálás az utolsó pozícióra
-        if SM.PlayerData.lastPosition then
+        print('^2[SM_LOADED]^7 Teleportálás...')
+        
+        -- Teleportálás
+        if SM and SM.PlayerData and SM.PlayerData.lastPosition then
             local pos = SM.PlayerData.lastPosition
             SetEntityCoords(ped, pos.x, pos.y, pos.z, false, false, false, false)
             SetEntityHeading(ped, pos.w or 0.0)
             
             print('^2[SM_LOADED]^7 Spawn pozíció: ' .. pos.x .. ', ' .. pos.y .. ', ' .. pos.z)
         else
-            -- Ha nincs mentett pozíció
             SetEntityCoords(ped, spawnPosition.x, spawnPosition.y, spawnPosition.z, false, false, false, false)
             SetEntityHeading(ped, spawnPosition.w)
             
@@ -106,6 +105,8 @@ CreateThread(function()
         end
         
         Wait(500)
+        
+        print('^2[SM_LOADED]^7 Unfreeze')
         
         -- Unfreeze
         SetEntityVisible(ped, true, 0)
@@ -119,10 +120,30 @@ CreateThread(function()
         
         hasSpawned = true
         
+        print('^2[SM_LOADED]^7 Spawn kész!')
+        
     else
-        -- ÚJ JÁTÉKOS - nincs spawn, hagyj a sm_char-ra
-        print('^2[SM_LOADED]^7 Új játékos, nincs spawn folyamat')
+        -- ÚJ JÁTÉKOS - NE REJTSD EL a loading screent!
+        -- Az sm_char majd elrejti amikor kész
+        print('^2[SM_LOADED]^7 Új játékos, loading screen MARAD')
+        
+        -- NE hívd meg a HideLoadingScreen()-t!
+        -- Az sm_char fogja kezelni
     end
+end)
+
+-- Új event - sm_char hívja amikor kész a teleporttal
+RegisterNetEvent('sm_loaded:hideForRegistration', function()
+    print('^2[SM_LOADED]^7 Regisztráció kész, loading screen elrejtése')
+    
+    -- Most már elrejthetjük
+    SendNUIMessage({
+        action = 'hide'
+    })
+    
+    isLoading = false
+    
+    -- NE csináljunk fade in-t, az sm_char kezeli!
 end)
 
 -- Karakterkészítő után spawn
