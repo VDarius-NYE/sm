@@ -31,35 +31,98 @@ const skinInputs = [
 ];
 
 skinInputs.forEach(inputId => {
-    const input = document.getElementById(inputId);
-    if (!input) return;
+    const rangeInput = document.getElementById(inputId);
+    const numberInput = document.getElementById(inputId + '-input');
+    const currentSpan = document.getElementById(inputId + '-current');
     
-    const valueSpan = document.getElementById(inputId + '-value');
+    if (!rangeInput) return;
     
-    input.addEventListener('input', function() {
+    // Range slider változás
+    rangeInput.addEventListener('input', function() {
         const value = parseFloat(this.value);
-        if (valueSpan) valueSpan.textContent = value;
+        
+        // Frissítsd a number inputot és a span-t
+        if (numberInput) numberInput.value = value;
+        if (currentSpan) currentSpan.textContent = value;
         
         currentSkin[inputId] = value;
         updateSkin();
     });
+    
+    // Number input változás
+    if (numberInput) {
+        numberInput.addEventListener('input', function() {
+            let value = parseFloat(this.value);
+            const min = parseFloat(this.min);
+            const max = parseFloat(this.max);
+            
+            // Validálás
+            if (isNaN(value)) value = min;
+            if (value < min) value = min;
+            if (value > max) value = max;
+            
+            // Frissítsd a range slidert és a span-t
+            rangeInput.value = value;
+            if (currentSpan) currentSpan.textContent = value;
+            this.value = value;
+            
+            currentSkin[inputId] = value;
+            updateSkin();
+        });
+    }
 });
 
 // Range sliderek kezelése (Ruházat)
-const clothingInputs = ['torso', 'pants', 'shoes', 'hat', 'glasses'];
+const clothingInputs = [
+    'torso', 'torso_texture', 
+    'pants', 'pants_texture', 
+    'shoes', 'shoes_texture', 
+    'bag', 'bag_texture',
+    'chain', 'chain_texture',
+    'hat', 'hat_texture', 
+    'glasses', 'glasses_texture',
+    'watch', 'watch_texture',
+    'bracelet', 'bracelet_texture'
+];
 
 clothingInputs.forEach(inputId => {
-    const input = document.getElementById(inputId);
-    if (!input) return;
+    const rangeInput = document.getElementById(inputId);
+    const numberInput = document.getElementById(inputId + '-input');
+    const currentSpan = document.getElementById(inputId + '-current');
     
-    const valueSpan = document.getElementById(inputId + '-value');
+    if (!rangeInput) return;
     
-    input.addEventListener('input', function() {
+    // Range slider változás
+    rangeInput.addEventListener('input', function() {
         const value = parseInt(this.value);
-        if (valueSpan) valueSpan.textContent = value;
+        
+        // Frissítsd a number inputot és a span-t
+        if (numberInput) numberInput.value = value;
+        if (currentSpan) currentSpan.textContent = value;
         
         updateClothing(inputId, value);
     });
+    
+    // Number input változás
+    if (numberInput) {
+        numberInput.addEventListener('input', function() {
+            let value = parseInt(this.value);
+            const min = parseInt(this.min);
+            const max = parseInt(this.max);
+            
+            // Validálás
+            if (isNaN(value)) value = min;
+            if (value < min) value = min;
+            if (value > max) value = max;
+            
+            // Frissítsd a range slidert és a span-t
+            rangeInput.value = value;
+            if (currentSpan) currentSpan.textContent = value;
+            this.value = value;
+            
+            updateClothing(inputId, value);
+        });
+    }
 });
 
 function updateSkin() {
@@ -78,19 +141,76 @@ function updateClothing(type, value) {
     // Clothing objektum frissítése
     switch(type) {
         case 'torso':
-            currentClothes.torso = { drawable: value, texture: 0 };
+            if (!currentClothes.torso) currentClothes.torso = { drawable: 0, texture: 0 };
+            currentClothes.torso.drawable = value;
+            break;
+        case 'torso_texture':
+            if (!currentClothes.torso) currentClothes.torso = { drawable: 0, texture: 0 };
+            currentClothes.torso.texture = value;
             break;
         case 'pants':
-            currentClothes.pants = { drawable: value, texture: 0 };
+            if (!currentClothes.pants) currentClothes.pants = { drawable: 0, texture: 0 };
+            currentClothes.pants.drawable = value;
+            break;
+        case 'pants_texture':
+            if (!currentClothes.pants) currentClothes.pants = { drawable: 0, texture: 0 };
+            currentClothes.pants.texture = value;
             break;
         case 'shoes':
-            currentClothes.shoes = { drawable: value, texture: 0 };
+            if (!currentClothes.shoes) currentClothes.shoes = { drawable: 0, texture: 0 };
+            currentClothes.shoes.drawable = value;
+            break;
+        case 'shoes_texture':
+            if (!currentClothes.shoes) currentClothes.shoes = { drawable: 0, texture: 0 };
+            currentClothes.shoes.texture = value;
+            break;
+        case 'bag':
+            if (!currentClothes.bag) currentClothes.bag = { drawable: 0, texture: 0 };
+            currentClothes.bag.drawable = value;
+            break;
+        case 'bag_texture':
+            if (!currentClothes.bag) currentClothes.bag = { drawable: 0, texture: 0 };
+            currentClothes.bag.texture = value;
+            break;
+        case 'chain':
+            if (!currentClothes.chain) currentClothes.chain = { drawable: 0, texture: 0 };
+            currentClothes.chain.drawable = value;
+            break;
+        case 'chain_texture':
+            if (!currentClothes.chain) currentClothes.chain = { drawable: 0, texture: 0 };
+            currentClothes.chain.texture = value;
             break;
         case 'hat':
-            currentClothes.hat = { drawable: value, texture: 0 };
+            if (!currentClothes.hat) currentClothes.hat = { drawable: -1, texture: 0 };
+            currentClothes.hat.drawable = value;
+            break;
+        case 'hat_texture':
+            if (!currentClothes.hat) currentClothes.hat = { drawable: -1, texture: 0 };
+            currentClothes.hat.texture = value;
             break;
         case 'glasses':
-            currentClothes.glasses = { drawable: value, texture: 0 };
+            if (!currentClothes.glasses) currentClothes.glasses = { drawable: -1, texture: 0 };
+            currentClothes.glasses.drawable = value;
+            break;
+        case 'glasses_texture':
+            if (!currentClothes.glasses) currentClothes.glasses = { drawable: -1, texture: 0 };
+            currentClothes.glasses.texture = value;
+            break;
+        case 'watch':
+            if (!currentClothes.watch) currentClothes.watch = { drawable: -1, texture: 0 };
+            currentClothes.watch.drawable = value;
+            break;
+        case 'watch_texture':
+            if (!currentClothes.watch) currentClothes.watch = { drawable: -1, texture: 0 };
+            currentClothes.watch.texture = value;
+            break;
+        case 'bracelet':
+            if (!currentClothes.bracelet) currentClothes.bracelet = { drawable: -1, texture: 0 };
+            currentClothes.bracelet.drawable = value;
+            break;
+        case 'bracelet_texture':
+            if (!currentClothes.bracelet) currentClothes.bracelet = { drawable: -1, texture: 0 };
+            currentClothes.bracelet.texture = value;
             break;
     }
     
@@ -104,31 +224,6 @@ function updateClothing(type, value) {
         })
     });
 }
-
-// Forgatás gombok
-document.getElementById('rotate-left').addEventListener('click', function() {
-    fetch(`https://${GetParentResourceName()}/rotatePed`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            rotation: -20
-        })
-    });
-});
-
-document.getElementById('rotate-right').addEventListener('click', function() {
-    fetch(`https://${GetParentResourceName()}/rotatePed`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            rotation: 20
-        })
-    });
-});
 
 // Mentés gomb
 document.getElementById('save-btn').addEventListener('click', function() {
@@ -165,62 +260,73 @@ window.addEventListener('message', function(event) {
 
 function loadSkinValues(skin) {
     for (const [key, value] of Object.entries(skin)) {
-        const input = document.getElementById(key);
-        const valueSpan = document.getElementById(key + '-value');
+        const rangeInput = document.getElementById(key);
+        const numberInput = document.getElementById(key + '-input');
+        const currentSpan = document.getElementById(key + '-current');
         
-        if (input) {
-            input.value = value;
-            if (valueSpan) valueSpan.textContent = value;
-        }
+        if (rangeInput) rangeInput.value = value;
+        if (numberInput) numberInput.value = value;
+        if (currentSpan) currentSpan.textContent = value;
     }
 }
 
 function loadClothingValues(clothes) {
-    if (clothes.torso) {
-        const torsoInput = document.getElementById('torso');
-        const torsoValue = document.getElementById('torso-value');
-        if (torsoInput) torsoInput.value = clothes.torso.drawable;
-        if (torsoValue) torsoValue.textContent = clothes.torso.drawable;
-    }
+    const clothingMap = {
+        'torso': clothes.torso,
+        'pants': clothes.pants,
+        'shoes': clothes.shoes,
+        'bag': clothes.bag,
+        'chain': clothes.chain,
+        'hat': clothes.hat,
+        'glasses': clothes.glasses,
+        'watch': clothes.watch,
+        'bracelet': clothes.bracelet
+    };
     
-    if (clothes.pants) {
-        const pantsInput = document.getElementById('pants');
-        const pantsValue = document.getElementById('pants-value');
-        if (pantsInput) pantsInput.value = clothes.pants.drawable;
-        if (pantsValue) pantsValue.textContent = clothes.pants.drawable;
-    }
-    
-    if (clothes.shoes) {
-        const shoesInput = document.getElementById('shoes');
-        const shoesValue = document.getElementById('shoes-value');
-        if (shoesInput) shoesInput.value = clothes.shoes.drawable;
-        if (shoesValue) shoesValue.textContent = clothes.shoes.drawable;
-    }
-    
-    if (clothes.hat) {
-        const hatInput = document.getElementById('hat');
-        const hatValue = document.getElementById('hat-value');
-        if (hatInput) hatInput.value = clothes.hat.drawable;
-        if (hatValue) hatValue.textContent = clothes.hat.drawable;
-    }
-    
-    if (clothes.glasses) {
-        const glassesInput = document.getElementById('glasses');
-        const glassesValue = document.getElementById('glasses-value');
-        if (glassesInput) glassesInput.value = clothes.glasses.drawable;
-        if (glassesValue) glassesValue.textContent = clothes.glasses.drawable;
+    for (const [key, value] of Object.entries(clothingMap)) {
+        if (value) {
+            // Drawable
+            const drawableRange = document.getElementById(key);
+            const drawableNumber = document.getElementById(key + '-input');
+            const drawableCurrent = document.getElementById(key + '-current');
+            
+            if (drawableRange) drawableRange.value = value.drawable;
+            if (drawableNumber) drawableNumber.value = value.drawable;
+            if (drawableCurrent) drawableCurrent.textContent = value.drawable;
+            
+            // Texture
+            const textureRange = document.getElementById(key + '_texture');
+            const textureNumber = document.getElementById(key + '_texture-input');
+            const textureCurrent = document.getElementById(key + '_texture-current');
+            
+            if (textureRange) textureRange.value = value.texture;
+            if (textureNumber) textureNumber.value = value.texture;
+            if (textureCurrent) textureCurrent.textContent = value.texture;
+        }
     }
 }
 
-// ESC billentyű kezelés
+// A és D billentyűk kezelése karakter forgatáshoz
 document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-        fetch(`https://${GetParentResourceName()}/closeCreator`, {
+    if (event.key === 'a' || event.key === 'A') {
+        fetch(`https://${GetParentResourceName()}/rotatePed`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({})
+            body: JSON.stringify({
+                rotation: -20
+            })
+        });
+    } else if (event.key === 'd' || event.key === 'D') {
+        fetch(`https://${GetParentResourceName()}/rotatePed`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                rotation: 20
+            })
         });
     }
 });

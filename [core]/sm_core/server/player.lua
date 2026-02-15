@@ -1,5 +1,4 @@
 -- Játékos betöltése
--- Játékos betöltése
 function SM.LoadPlayer(source, identifier)
     local result = MySQL.query.await('SELECT * FROM sm_players WHERE identifier = ?', {identifier})
     
@@ -95,6 +94,8 @@ end
 function SM.SavePlayer(source)
     local player = SM.Players[source]
     if not player then return end
+    TriggerClientEvent('sm_core:requestPosition', source)
+    Wait(100)
     
     MySQL.update('UPDATE sm_players SET name = ?, firstname = ?, lastname = ?, dateofbirth = ?, gender = ?, height = ?, skin = ?, is_registered = ?, rank = ?, team = ?, money = ?, bank = ?, kills = ?, deaths = ?, playtime = ?, permission = ?, last_position = ? WHERE identifier = ?', {
         player.name,

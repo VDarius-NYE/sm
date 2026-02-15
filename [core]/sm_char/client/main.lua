@@ -64,7 +64,8 @@ end
 -- NUI Callback - Regisztráció
 RegisterNUICallback('registerCharacter', function(data, cb)
     print('^2[SM_CHAR]^7 Regisztráció küldése...')
-    TriggerServerEvent('sm_char:registerCharacter', data)
+    TriggerEvent('sm_loaded:showRegistrationLoading')
+    TriggerServerEvent('sm_char:registerCharacter', data)  
     cb('ok')
 end)
 
@@ -73,8 +74,10 @@ RegisterNetEvent('sm_char:registrationSuccess', function()
     print('^2[SM_CHAR]^7 Regisztráció sikeres!')
     CloseRegistration()
     
+    TriggerEvent('sm_loaded:hideRegistrationLoading')
+
     -- JAVÍTÁS: Várj hogy az SM.PlayerData frissüljön
-    Wait(2000)
+    Wait(1000)
     
     -- Ellenőrizd hogy létezik-e
     if SM and SM.PlayerData then

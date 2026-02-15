@@ -75,3 +75,17 @@ RegisterNetEvent('sm_core:updatePlayerData', function(key, value)
         print('^3[SM_CORE]^7 PlayerData frissítve: ' .. key .. ' = ' .. tostring(value))
     end
 end)
+
+-- Pozíció küldése a szervernek
+RegisterNetEvent('sm_core:requestPosition', function()
+    local ped = PlayerPedId()
+    local coords = GetEntityCoords(ped)
+    local heading = GetEntityHeading(ped)
+    
+    SM.PlayerData.lastPosition = {
+        x = coords.x,
+        y = coords.y,
+        z = coords.z,
+        w = heading
+    }
+end)

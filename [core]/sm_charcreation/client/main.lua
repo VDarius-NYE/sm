@@ -104,8 +104,11 @@ end
 function CloseCharacterCreation()
     isCreatingCharacter = false
     
-    DoScreenFadeOut(500)
-    Wait(500)
+    -- UI bezárás
+    SetNuiFocus(false, false)
+    SendNUIMessage({
+        action = 'closeCreator'
+    })
     
     -- Kamera törlés
     if cam then
@@ -114,26 +117,10 @@ function CloseCharacterCreation()
         cam = nil
     end
     
-    -- UI bezárás
-    SetNuiFocus(false, false)
-    SendNUIMessage({
-        action = 'closeCreator'
-    })
+    print('^2[SM_CHARCREATION]^7 Karakterkészítő bezárva, spawn triggerelése...')
     
-    -- Player unfreeze és teleport spawn pontra
-    local ped = PlayerPedId()
-    
-    -- Teleportáld a spawn pontra (Fort Zancudo vagy ahova szeretnéd)
-    local spawnCoords = vector4(-1037.78, -2736.91, 20.17, 328.29)
-    SetEntityCoords(ped, spawnCoords.x, spawnCoords.y, spawnCoords.z)
-    SetEntityHeading(ped, spawnCoords.w)
-    
-    FreezeEntityPosition(ped, false)
-    SetEntityInvincible(ped, false)
-    
-    DoScreenFadeIn(500)
-    
-    print('^2[SM_CHARCREATION]^7 Karakterkészítő bezárva')
+    -- Spawn a loading screen-el
+    TriggerEvent('sm_loaded:spawnAfterCreation')
 end
 
 -- Skin alkalmazása
