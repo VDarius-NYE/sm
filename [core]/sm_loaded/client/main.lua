@@ -1,9 +1,11 @@
 local isLoading = false
-local spawnPosition = vector4(2507.5876, -384.0722, 94.1201, 267.2562) -- Spawn pozíció karakterkészítés után
+local hasSpawned = false
+local spawnPosition = vector4(2507.5876, -384.0722, 94.1201, 267.2562)
 
 -- Spawn manager letiltása
-exports.spawnmanager:setAutoSpawn(false)
-exports.spawnmanager:forceRespawn()
+Citizen.CreateThread(function()
+    exports.spawnmanager:setAutoSpawn(false)
+end)
 
 -- Loading screen megjelenítése
 function ShowLoadingScreen(text)
@@ -13,20 +15,18 @@ function ShowLoadingScreen(text)
     
     print('^2[SM_LOADED]^7 Loading screen megjelenítése: ' .. text)
     
-    -- UI megjelenítés
-    SetNuiFocus(false, false) -- NE legyen input focus, csak megjelenítés
+    -- UI megjelenítés (nincs focus!)
+    SetNuiFocus(false, false)
     SendNUIMessage({
         action = 'show',
         text = text
     })
     
-    -- Freeze player
-    local ped = PlayerPedId()
-    FreezeEntityPosition(ped, true)
-    SetEntityVisible(ped, false, 0)
-    
     -- Teljes fade out
-    DoScreenFadeOut(0)
+    if not IsScreenFadedOut() then
+        DoScreenFadeOut(500)
+        Wait(500)
+    end
 end
 
 -- Loading screen elrejtése
@@ -39,82 +39,86 @@ function HideLoadingScreen()
         action = 'hide'
     })
     
-    -- Unfreeze player
-    local ped = PlayerPedId()
-    FreezeEntityPosition(ped, false)
-    SetEntityVisible(ped, true, 0)
+    isLoading = false
     
     -- Fade in
-    DoScreenFadeIn(1000)
-    
-    isLoading = false
+    if IsScreenFadedOut() then
+        DoScreenFadeIn(1000)
+    end
 end
 
--- Első spawn kezelés
+-- FŐFOLYAMAT - Várj a teljes betöltésre
 CreateThread(function()
-    -- Várj amíg a hálózat aktív
+    -- 1. Várj a hálózatra
     while not NetworkIsPlayerActive(PlayerId()) do
         Wait(100)
     end
     
-    print('^2[SM_LOADED]^7 Hálózat aktív, loading screen indítása...')
+    print('^2[SM_LOADED]^7 Hálózat aktív')
     
-    -- Azonnal teleportáld magasra (láthatatlanul)
-    local ped = PlayerPedId()
-    local highPosition = vector3(2507.5876, -384.0722, 500.0) -- Magasan a spawn pozíció felett
+    -- 2. Várj amíg a játék ténylegesen betölt (fontos!)
+    while GetIsLoadingScreenActive() do
+        Wait(100)
+    end
     
-    SetEntityCoords(ped, highPosition.x, highPosition.y, highPosition.z)
-    FreezeEntityPosition(ped, true)
-    SetEntityVisible(ped, false, 0)
-    SetEntityInvincible(ped, true)
+    print('^2[SM_LOADED]^7 Játék betöltve')
     
-    -- Loading screen megjelenítése
-    ShowLoadingScreen('Karakteradatok betöltése')
-    
-    -- Várj az SM.PlayerData betöltésére
+    -- 3. Várj az SM.PlayerLoaded-re
     while not SM or not SM.PlayerLoaded do
         Wait(100)
     end
     
-    print('^2[SM_LOADED]^7 PlayerData betöltve')
+    print('^2[SM_LOADED]^7 PlayerData betöltve, isRegistered: ' .. tostring(SM.PlayerData.isRegistered))
     
-    -- Ha regisztrált játékos
+    -- 4. Ha REGISZTRÁLT játékos - teleportáld és loading screen
     if SM.PlayerData.isRegistered then
-        print('^2[SM_LOADED]^7 Regisztrált játékos, spawn pozíció betöltése...')
+        print('^2[SM_LOADED]^7 Regisztrált játékos spawn folyamat')
         
-        Wait(1000) -- Kis extra várakozás a skin betöltésére
+        -- Loading screen
+        ShowLoadingScreen('Karakteradatok betöltése')
+        
+        local ped = PlayerPedId()
+        
+        -- Freeze és láthatatlan
+        FreezeEntityPosition(ped, true)
+        SetEntityVisible(ped, false, 0)
+        SetEntityInvincible(ped, true)
+        
+        Wait(1000) -- Várj a skin betöltésére
         
         -- Teleportálás az utolsó pozícióra
         if SM.PlayerData.lastPosition then
             local pos = SM.PlayerData.lastPosition
-            SetEntityCoords(ped, pos.x, pos.y, pos.z)
+            SetEntityCoords(ped, pos.x, pos.y, pos.z, false, false, false, false)
             SetEntityHeading(ped, pos.w or 0.0)
             
             print('^2[SM_LOADED]^7 Spawn pozíció: ' .. pos.x .. ', ' .. pos.y .. ', ' .. pos.z)
         else
-            -- Ha nincs mentett pozíció, spawn pont
-            SetEntityCoords(ped, spawnPosition.x, spawnPosition.y, spawnPosition.z)
+            -- Ha nincs mentett pozíció
+            SetEntityCoords(ped, spawnPosition.x, spawnPosition.y, spawnPosition.z, false, false, false, false)
             SetEntityHeading(ped, spawnPosition.w)
             
             print('^2[SM_LOADED]^7 Alapértelmezett spawn pozíció')
         end
         
+        Wait(500)
+        
+        -- Unfreeze
+        SetEntityVisible(ped, true, 0)
+        FreezeEntityPosition(ped, false)
         SetEntityInvincible(ped, false)
         
         Wait(500)
         
         -- Loading screen elrejtése
         HideLoadingScreen()
+        
+        hasSpawned = true
+        
     else
-        -- Új játékos - a regisztráció és karakterkészítő kezeli
-        print('^2[SM_LOADED]^7 Új játékos, regisztráció folyamat...')
-        
-        -- Elrejtjük a loading screent, mert jön a regisztráció
-        SendNUIMessage({
-            action = 'hide'
-        })
-        
-        isLoading = false
+        -- ÚJ JÁTÉKOS - NE csinálj semmit, hagyj a sm_char-ra
+        print('^2[SM_LOADED]^7 Új játékos, várakozás regisztrációra...')
+        hasSpawned = false
     end
 end)
 
@@ -128,26 +132,35 @@ RegisterNetEvent('sm_loaded:spawnAfterCreation', function()
     
     local ped = PlayerPedId()
     
+    -- Freeze közben
+    FreezeEntityPosition(ped, true)
+    SetEntityVisible(ped, false, 0)
+    
     -- Teleportálás a spawn pontra
-    SetEntityCoords(ped, spawnPosition.x, spawnPosition.y, spawnPosition.z)
+    SetEntityCoords(ped, spawnPosition.x, spawnPosition.y, spawnPosition.z, false, false, false, false)
     SetEntityHeading(ped, spawnPosition.w)
+    
+    Wait(500)
+    
+    -- Unfreeze
+    SetEntityVisible(ped, true, 0)
+    FreezeEntityPosition(ped, false)
     SetEntityInvincible(ped, false)
     
     Wait(500)
     
     HideLoadingScreen()
+    
+    hasSpawned = true
 end)
 
--- Regisztráció után loading
+-- Regisztráció loading (opcionális)
 RegisterNetEvent('sm_loaded:showRegistrationLoading', function()
     print('^2[SM_LOADED]^7 Regisztráció loading...')
-    ShowLoadingScreen('Karakter regisztrálása')
+    -- NE jelenítsd meg, mert a regisztráció UI-ja van
 end)
 
 RegisterNetEvent('sm_loaded:hideRegistrationLoading', function()
     print('^2[SM_LOADED]^7 Regisztráció loading elrejtése')
-    SendNUIMessage({
-        action = 'hide'
-    })
-    isLoading = false
+    -- Semmit ne csinálj
 end)

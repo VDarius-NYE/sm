@@ -76,16 +76,32 @@ RegisterNetEvent('sm_core:updatePlayerData', function(key, value)
     end
 end)
 
--- Pozíció küldése a szervernek
+-- Pozíció frissítés kilépés előtt
+AddEventHandler('onClientResourceStop', function(resourceName)
+    if resourceName == GetCurrentResourceName() then
+        local ped = PlayerPedId()
+        local coords = GetEntityCoords(ped)
+        local heading = GetEntityHeading(ped)
+        
+        TriggerServerEvent('sm_core:savePosition', {
+            x = coords.x,
+            y = coords.y,
+            z = coords.z,
+            w = heading
+        })
+    end
+end)
+
+-- Pozíció küldése kérésre
 RegisterNetEvent('sm_core:requestPosition', function()
     local ped = PlayerPedId()
     local coords = GetEntityCoords(ped)
     local heading = GetEntityHeading(ped)
     
-    SM.PlayerData.lastPosition = {
+    TriggerServerEvent('sm_core:savePosition', {
         x = coords.x,
         y = coords.y,
         z = coords.z,
         w = heading
-    }
+    })
 end)

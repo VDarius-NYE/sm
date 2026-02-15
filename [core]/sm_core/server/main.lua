@@ -74,6 +74,17 @@ CreateThread(function()
     end
 end)
 
+-- Pozíció mentése
+RegisterNetEvent('sm_core:savePosition', function(position)
+    local src = source
+    local player = SM.Players[src]
+    
+    if player then
+        player.lastPosition = position
+        print('^3[SM_CORE]^7 Pozíció mentve: ' .. position.x .. ', ' .. position.y .. ', ' .. position.z)
+    end
+end)
+
 -- Adatbázis táblák
 function CreateDatabaseTables()
     MySQL.query([[

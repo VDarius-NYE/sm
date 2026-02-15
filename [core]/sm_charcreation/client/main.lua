@@ -30,10 +30,19 @@ function OpenCharacterCreation()
     
     print('^2[SM_CHARCREATION]^7 Karakterkészítő megnyitása folyamatban...')
     
-    local ped = PlayerPedId()
-    
     DoScreenFadeOut(500)
     Wait(500)
+    
+    local ped = PlayerPedId()
+    
+    -- KARAKTERKÉSZÍTŐ POZÍCIÓ - Fort Zancudo bejárat (FÖLDÖN!)
+    local creationCoords = vector4(-1036.58, -2731.56, 20.17, 240.0)
+    
+    -- Teleportálás a FÖLDRE
+    SetEntityCoords(ped, creationCoords.x, creationCoords.y, creationCoords.z, false, false, false, false)
+    SetEntityHeading(ped, creationCoords.w)
+    
+    print('^3[SM_CHARCREATION]^7 Karakter teleportálva földre: ' .. creationCoords.x .. ', ' .. creationCoords.y .. ', ' .. creationCoords.z)
     
     -- Alap skin alkalmazása a nem alapján
     local gender = SM.PlayerData.gender or 'm'
@@ -60,6 +69,7 @@ function OpenCharacterCreation()
     -- Most már láthatóvá teheted
     SetEntityVisible(ped, true, 0)
     FreezeEntityPosition(ped, true)
+    SetEntityCollision(ped, true, true)
     
     -- Alapértelmezett skin alkalmazása
     local defaultSkin = gender == 'm' and Config.DefaultMaleSkin or Config.DefaultFemaleSkin
@@ -73,14 +83,14 @@ function OpenCharacterCreation()
     
     print('^3[SM_CHARCREATION]^7 Ruházat alkalmazva')
     
-    -- Kamera beállítás - a ped pozíciója körül
+    -- Kamera beállítás - a karakter körül
     local coords = GetEntityCoords(ped)
     cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
     
-    -- Kamera a karakter elé
-    local camOffset = GetOffsetFromEntityInWorldCoords(ped, 0.0, 2.0, 0.0)
-    SetCamCoord(cam, camOffset.x, camOffset.y, coords.z + 0.5)
-    PointCamAtEntity(cam, ped, 0.0, 0.0, 0.0, true)
+    -- Kamera beállítása a karakter elé és kissé feljebb
+    local camCoords = vector3(coords.x + 1.5, coords.y + 1.5, coords.z + 0.5)
+    SetCamCoord(cam, camCoords.x, camCoords.y, camCoords.z)
+    PointCamAtEntity(cam, ped, 0.0, 0.0, 0.5, true)
     SetCamFov(cam, 50.0)
     SetCamActive(cam, true)
     RenderScriptCams(true, false, 0, true, true)
@@ -92,10 +102,10 @@ function OpenCharacterCreation()
     -- UI megnyitás
     SetNuiFocus(true, true)
     SendNUIMessage({
-        action = 'openCreator',
-        gender = gender,
-        skin = defaultSkin,
-        clothes = defaultClothes
+        action: 'openCreator',
+        gender: gender,
+        skin: defaultSkin,
+        clothes: defaultClothes
     })
     
     print('^2[SM_CHARCREATION]^7 UI megnyitva!')
@@ -107,7 +117,7 @@ function CloseCharacterCreation()
     -- UI bezárás
     SetNuiFocus(false, false)
     SendNUIMessage({
-        action = 'closeCreator'
+        action: 'closeCreator'
     })
     
     -- Kamera törlés
