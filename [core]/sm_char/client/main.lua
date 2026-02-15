@@ -1,4 +1,5 @@
 local isRegistering = false
+local freezeThread = nil
 
 -- Figyelj az sm_core:onPlayerLoaded eventre
 RegisterNetEvent('sm_core:onPlayerLoaded', function(playerData)
@@ -12,60 +13,37 @@ RegisterNetEvent('sm_core:onPlayerLoaded', function(playerData)
     
     print('^3[SM_CHAR]^7 Játék teljesen betöltve')
     
+    -- FONTOS: Várj amíg a ped TÉNYLEG létezik
+    while not DoesEntityExist(PlayerPedId()) do
+        Wait(100)
+    end
+    
+    print('^3[SM_CHAR]^7 Ped létezik')
+    
     -- Kis extra várakozás
-    Wait(500)
+    Wait(1000)
     
     -- Ellenőrizzük hogy regisztrált-e már
     if not playerData.isRegistered then
         print('^2[SM_CHAR]^7 Nincs regisztráció, előkészítés...')
         
+        -- Indítsd el a freeze thread-et MOST
+        StartFreezeThread()
+        
+        Wait(500) -- Várj hogy a freeze thread elinduljon
+        
         local ped = PlayerPedId()
         
-        -- ELŐSZÖR freeze és láthatatlan
-        FreezeEntityPosition(ped, true)
-        SetEntityVisible(ped, false, 0)
-        SetEntityInvincible(ped, true)
-        SetEntityCollision(ped, false, false)
-        SetEntityAlpha(ped, 0, false)
+        print('^3[SM_CHAR DEBUG]^7 Ped ID: ' .. ped)
         
-        Wait(100) -- Várj hogy az állapotok alkalmazzák
-        
-        -- Levegőbe a város felett - SZÉP KILÁTÁS!
+        -- Levegőbe a város felett
         local spawnCoords = vector3(215.0, -800.0, 500.0)
         
         -- Teleportálás
         SetEntityCoordsNoOffset(ped, spawnCoords.x, spawnCoords.y, spawnCoords.z, false, false, false)
         SetEntityHeading(ped, 0.0)
         
-        -- Még egyszer alkalmazd a freeze-t és invisible-t (biztosra megy)
-        FreezeEntityPosition(ped, true)
-        SetEntityVisible(ped, false, 0)
-        SetEntityInvincible(ped, true)
-        SetEntityCollision(ped, false, false)
-        
-        -- Ragdoll kikapcsolása
-        SetPedCanRagdoll(ped, false)
-        SetPedCanBeKnockedOffVehicle(ped, 1)
-        
-        -- Ellenőrzés thread - hogy biztosan freeze maradjon
-        CreateThread(function()
-            while isRegistering do
-                local playerPed = PlayerPedId()
-                
-                -- Ha nem freeze-lt, freeze-ld újra
-                if not IsPedFrozen(playerPed) then
-                    FreezeEntityPosition(playerPed, true)
-                end
-                
-                -- Ha látszik, rejtsd el újra
-                if IsEntityVisible(playerPed) then
-                    SetEntityVisible(playerPed, false, 0)
-                    SetEntityAlpha(playerPed, 0, false)
-                end
-                
-                Wait(100)
-            end
-        end)
+        print('^3[SM_CHAR]^7 Teleportálva: ' .. spawnCoords.x .. ', ' .. spawnCoords.y .. ', ' .. spawnCoords.z)
         
         Wait(100)
         
@@ -74,6 +52,74 @@ RegisterNetEvent('sm_core:onPlayerLoaded', function(playerData)
         print('^3[SM_CHAR]^7 Játékos már regisztrált')
     end
 end)
+
+-- Freeze thread - folyamatosan freeze-eli a karaktert
+function StartFreezeThread()
+    if freezeThread then return end
+    
+    print('^2[SM_CHAR]^7 Freeze thread indítása')
+    
+    freezeThread = CreateThread(function()
+        while isRegistering or not isRegistering do -- Folyamatosan fut amíg nem regisztrált
+            local ped = PlayerPedId()
+            
+            if DoesEntityExist(ped) then
+                -- Freeze
+                if not IsPedFrozen(ped) then
+                    FreezeEntityPosition(ped, true)
+                end
+                
+                -- Láthatatlan
+                if IsEntityVisible(ped) then
+                    SetEntityVisible(ped, false, 0)
+                end
+                
+                -- Alpha
+                if GetEntityAlpha(ped) ~= 0 then
+                    SetEntityAlpha(ped, 0, false)
+                end
+                
+                -- Invincible
+                if not GetEntityInvincible(ped) then
+                    SetEntityInvincible(ped, true)
+                end
+                
+                -- Collision
+                SetEntityCollision(ped, false, false)
+                
+                -- Ragdoll
+                SetPedCanRagdoll(ped, false)
+            end
+            
+            Wait(0) -- Minden frame-en fut!
+        end
+        
+        print('^2[SM_CHAR]^7 Freeze thread leállt')
+        freezeThread = nil
+    end)
+end
+
+-- Freeze thread leállítása
+function StopFreezeThread()
+    isRegistering = false
+    
+    -- Várj hogy a thread leálljon
+    Wait(100)
+    
+    local ped = PlayerPedId()
+    
+    if DoesEntityExist(ped) then
+        -- Visszaállítás
+        FreezeEntityPosition(ped, false)
+        SetEntityVisible(ped, true, 0)
+        SetEntityAlpha(ped, 255, false)
+        SetEntityInvincible(ped, false)
+        SetEntityCollision(ped, true, true)
+        SetPedCanRagdoll(ped, true)
+        
+        print('^2[SM_CHAR]^7 Karakter felszabadítva')
+    end
+end
 
 -- Regisztrációs UI megnyitása
 function OpenRegistration()
@@ -97,19 +143,13 @@ end
 
 -- Regisztrációs UI bezárása
 function CloseRegistration()
-    isRegistering = false
-    
     SetNuiFocus(false, false)
     SendNUIMessage({
         action = 'closeRegistration'
     })
     
-    -- Unfreeze és láthatóvá tétel (charakterkészítő majd beállítja)
-    local ped = PlayerPedId()
-    FreezeEntityPosition(ped, false)
-    SetEntityVisible(ped, true, 0)
-    SetEntityAlpha(ped, 255, false)
-    SetPedCanRagdoll(ped, true)
+    -- Állítsd le a freeze thread-et
+    StopFreezeThread()
 end
 
 -- NUI Callback - Regisztráció

@@ -102,10 +102,10 @@ function OpenCharacterCreation()
     -- UI megnyitás
     SetNuiFocus(true, true)
     SendNUIMessage({
-        action: 'openCreator',
-        gender: gender,
-        skin: defaultSkin,
-        clothes: defaultClothes
+        action = 'openCreator',
+        gender = gender,
+        skin = defaultSkin,
+        clothes = defaultClothes
     })
     
     print('^2[SM_CHARCREATION]^7 UI megnyitva!')
@@ -117,7 +117,7 @@ function CloseCharacterCreation()
     -- UI bezárás
     SetNuiFocus(false, false)
     SendNUIMessage({
-        action: 'closeCreator'
+        action = 'closeCreator'
     })
     
     -- Kamera törlés
