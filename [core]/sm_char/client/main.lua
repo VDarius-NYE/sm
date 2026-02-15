@@ -7,10 +7,7 @@ RegisterNetEvent('sm_core:onPlayerLoaded', function(playerData)
     
     -- Ellenőrizzük hogy regisztrált-e már
     if not playerData.isRegistered then
-        print('^2[SM_CHAR]^7 Nincs regisztráció, előkészítés loading screen-nel...')
-        
-        -- Loading screen megjelenítése
-        TriggerEvent('sm_loaded:showLoading', 'Előkészítés')
+        print('^2[SM_CHAR]^7 Nincs regisztráció, előkészítés...')
         
         -- Várj amíg a játék TELJESEN betölt
         while GetIsLoadingScreenActive() do
@@ -22,7 +19,7 @@ RegisterNetEvent('sm_core:onPlayerLoaded', function(playerData)
             Wait(100)
         end
         
-        Wait(1000) -- Extra várakozás
+        Wait(500) -- Extra várakozás
         
         local ped = PlayerPedId()
         print('^3[SM_CHAR DEBUG]^7 Ped ID: ' .. ped)
@@ -62,11 +59,6 @@ RegisterNetEvent('sm_core:onPlayerLoaded', function(playerData)
         
         Wait(500) -- Várj hogy minden beállítódjon
         
-        -- Loading screen elrejtése
-        TriggerEvent('sm_loaded:hideLoading')
-        
-        Wait(500) -- Kis szünet a loading után
-        
         -- Most már biztonságosan megnyithatjuk a regisztrációt
         OpenRegistration()
     else
@@ -102,8 +94,6 @@ function CloseRegistration()
     SendNUIMessage({
         action = 'closeRegistration'
     })
-    
-    -- NE unfreeze-eld, mert jön a karakterkészítő!
 end
 
 -- NUI Callback - Regisztráció
